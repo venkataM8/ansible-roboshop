@@ -4,7 +4,7 @@
   vars:
     ami_id:	ami-0220d79f3f480ecf5
     sg_id: sg-041b1e1e7cdd64c00
-    ZONEID: Z037454935YF29LANR6TX
+    ZONE_ID: Z037454935YF29LANR6TX
     domain_name: deployandplay.fun
     instances:
     - mangodb
@@ -22,12 +22,23 @@
   #   ansible.builtin.debug:
   #     msg: "{{ec2_output}}"
 
-  - name: print the public_ip
-    ansible.builtin.debug: 
-      msg: "{{ item.instances[0].public_ip_address}}"
-    loop: "{{ ec2_output.results }}"
+  # - name: print the public_ip
+  #   ansible.builtin.debug: 
+  #     msg: "{{ item.instances[0].public_ip_address}}"
+  #   loop: "{{ ec2_output.results }}"
 
-  - name: print the private_ip
-    ansible.builtin.debug: 
-      msg: "{{ item.instances[0].private_ip_address}}"
-    loop: "{{ ec2_output.results }}"
+  # - name: print the private_ip
+  #   ansible.builtin.debug: 
+  #     msg: "{{ item.instances[0].private_ip_address}}"
+  #   loop: "{{ ec2_output.results }}"
+
+  - name: create route53 record
+    amazon.aws.route53:
+      state: present
+      zone: "{{ZONE_ID}}"
+      record: "{{item.item}}.{{domain_name}}"
+      type: A
+      ttl: 1
+      value: "{{ item.instances[0].private_ip_address}}"
+      overwrite: true
+    loop: "{{instances}}"
