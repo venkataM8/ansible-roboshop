@@ -3,7 +3,7 @@
   connection: local
   vars:
     ami_id:	ami-0220d79f3f480ecf5
-    sg-id: sg-041b1e1e7cdd64c00
+    sg_id: sg-041b1e1e7cdd64c00
     ZONEID: Z037454935YF29LANR6TX
     domain_name: deployandplay.fun
     instances:
