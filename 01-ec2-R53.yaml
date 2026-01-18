@@ -8,6 +8,9 @@
     domain_name: deployandplay.fun
     instances:
     - mangodb
+    - redis
+    - mysql
+    - rabbitmq
   tasks:
   - name: create ec2 instance
     amazon.aws.ec2_instance:
@@ -35,7 +38,7 @@
   - name: create route53 record
     amazon.aws.route53:
       state: present
-      zone: "{{ZONE_ID}}"
+      zone: "{{domain_name}}"
       record: "{{item.item}}.{{domain_name}}"
       type: A
       ttl: 1
