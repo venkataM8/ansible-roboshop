@@ -1,0 +1,24 @@
+- name: create ec2 and r53
+  hosts: local
+  connection: local
+  vars:
+    ami_id:	ami-0220d79f3f480ecf5
+    sg-id: sg-041b1e1e7cdd64c00
+    ZONEID: Z037454935YF29LANR6TX
+    domain_name: deployandplay.fun
+    instances:
+    - mangodb
+  tasks:
+  - name: create ec2 instance
+    amazon.aws.ec2_instance:
+      name: "{{item}}"
+      instance_type: t3.micro
+      security_group: "{{sg_id}}"
+      image_id: "{{ami_id}}"
+    loop: "{{instances}}"
+    register: ec2_output
+
+  - name: print the ec2_output
+    ansible.builtin.debug:
+      msg: {{ec2_output}}
+    
