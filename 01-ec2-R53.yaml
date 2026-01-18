@@ -6,11 +6,12 @@
     sg_id: sg-025e9f10b8d627667
     ZONE_ID: Z037454935YF29LANR6TX
     domain_name: deployandplay.fun
-    instances:
-    - mangodb
-    - redis
-    - mysql
-    - rabbitmq
+    # we can pass instances through command line using -e
+    # instances:
+    # - mangodb
+    # - redis
+    # - mysql
+    # - rabbitmq
   tasks:
   - name: create ec2 instance
     amazon.aws.ec2_instance:
